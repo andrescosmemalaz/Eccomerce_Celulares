@@ -1,0 +1,86 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Perfil{% endblock title %}
+{% block main-content %}
+<div class="container my-5">
+ <div class="row">
+  <h3>Bienvenido <span class='text-capitalize'>{{request.user}}</span></h3>
+  <div class="col-sm-2 border-end">
+   <ul class="list-unstyled">
+    <li class="d-grid"><a href="{% url 'address' %}" class="btn {{active}}">Perfil</a></li>
+    <li class="d-grid"><a href="{% url 'address' %}" class="btn">Dirección</a></li>
+   </ul>
+  </div>
+  <div class="col-sm-8 offset-sm-1">
+   <form action="" method="post" novalidate>
+        {% csrf_token %}
+        {% for fm  in form  %}
+        <div class="form-group col-lg-6 mb-3">
+          {{fm.label_tag}} {{fm}} <small  class="text-danger">{{fm.errors|striptags}}</small><br>
+        </div>
+        {% endfor %}     
+{% comment %} 
+
+    <div class="col-12">
+      <label for="inputName" class="form-label">Nombre</label>
+      <input type="text" class="form-control" id="inputEmail">
+    </div>
+    <div class="col-12">
+      <label for="inputAddress" class="form-label">Dirección</label>
+      <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+    </div>
+    <div class="col-12">
+      <label for="inputAddress2" class="form-label">Dirección 2</label>
+      <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+    </div>
+    <div class="col-12">
+      <label for="inputCity" class="form-label">Ciudad</label>
+      <input type="text" class="form-control" id="inputCity">
+    </div>
+    <div class="col-md-4">
+      <label for="inputState" class="form-label">Departamento</label>
+      <select id="inputState" class="form-select">
+        <option selected>Amazonas</option>
+        <option selected>Ancash</option>
+        <option selected>Apurimac</option>
+        <option selected>Arequipa</option>
+        <option selected>Ayacucho</option>
+        <option selected>Cajamarca</option>
+        <option selected>Callao</option>
+        <option selected>Cusco</option>
+        <option selected>Huancavelica</option>
+        <option selected>Huanuco</option>
+        <option selected>Ica</option>
+        <option selected>Junín</option>
+        <option selected>La Libertad</option>
+        <option selected>Lambayeque</option>
+        <option selected>Ucayali</option>
+        <option selected>Loreto</option>
+        <option selected>Madre de Dios</option>
+        <option selected>Moquegua</option>
+        <option selected>Pasco</option>
+        <option selected>Piura</option>
+        <option selected>Puno</option>
+        <option selected>San Martín</option>
+        <option selected>Tacna</option>
+        <option selected>Tumbes</option>
+        <option selected>Lima</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <label for="inputZip" class="form-label">Zip</label>
+      <input type="text" class="form-control" id="inputZip">
+    </div> {% endcomment %}
+    <div class="col-12 mt-3">
+      <button type="submit" class="btn btn-primary">Enviar</button>
+    </div>
+   </form>
+   {% if  messages %}
+    {% for message in messages  %}
+    <p {% if message.tags %} class="alert alert-{{message.tags}} mb-5" {% endif %}>{{message}}}</p> 
+    {% endfor %}
+   {% endif %}
+  </div>
+ </div>
+</div>
+{% endblock main-content %}

@@ -1,0 +1,89 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Checkout{% endblock title %}
+{% block main-content %}
+<div class="container">
+ <div class="row mt-5">
+  <div class="col-sm-6">
+    <h4>Resumen del pedido</h4>
+    <hr>
+    {% for item in cart_items %}
+      <div class="card mb-2">
+        <div class="card-body">
+          <h5>Producto: {{item.product.title}}</h5>
+          <p>Cantidad: {{item.quantity}}</p>
+          <p class="fw-bold">Precio: S/. {{item.costo_total}}</p>
+        </div>
+      </div>
+      {% endfor %}
+      <p class="fw-bold"> Costo Total  + S/. 70 = {{cantidadtotal}}
+      </p>
+    <small>Término y condición</small>
+  </div>
+  <div class="col-sm-4 offset-sm-1">
+    <h4>Seleccione la dirección de envío</h4>
+    <hr>
+    <form action="/paymentdone" id="myform">
+        {% for ad in add  %}
+      <div class="card">
+        <div class="card-body">
+        <h5>{{ad.name}}</h5>
+        <p>{{ad.locality}}, {{ad.city}}, {{ad.state}} - {{ad.zipcode}} </p> 
+        </div>
+      </div>
+        <div class="form-check mt-2 mb-5">
+          <input class="form-check-input" type="radio" name="custid" id="custadd{{forloop.counter}}" value="{{ad.id}}"> 
+          <label class="form-check-label fw-bold" for="">
+            Dirección: {{forloop.counter}} </label>
+        </div>
+        {% endfor %}
+        <div class="text-end">
+          {% comment %} <button type="submit" class="btn btn-warning mt-3 px-5 fw-bold">Continuar</button> {% endcomment %}
+          <div id="paypal-button-container"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock main-content %}
+{% block payment-gateway %}
+ <!-- Include the PayPal JavaScript SDK -->
+ <script src="https://www.paypal.com/sdk/js?client-id=Aa3ewzClsAG53eTj5L7CraqUOi_XSJoEWrrgNQXnGrxKcEsQHH0ttP8-ZbueAD0m8Ap6pBAG2VYKrvfQ&currency=USD"></script>
+
+ <script>
+     // Render the PayPal button into #paypal-button-container
+     paypal.Buttons({
+
+         // Set up the transaction
+         createOrder: function(data, actions) {
+             return actions.order.create({
+                 purchase_units: [{
+                     amount: {
+                         value: '{{cantidadtotal}}'
+                     }
+                 }]
+             });
+         },
+
+         // Finalize the transaction
+         onApprove: function(data, actions) {
+             return actions.order.capture().then(function(orderData) {
+                 // Successful capture! For demo purposes:
+                 console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                 var transaction = orderData.purchase_units[0].payments.captures[0];
+                 alert('Transaction '+ transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
+                 document.getElementById("myform").submit();
+
+                 // Replace the above to show a success message within this page, e.g.
+                 // const element = document.getElementById('paypal-button-container');
+                 // element.innerHTML = '';
+                 // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+                 // Or go to another URL:  actions.redirect('thank_you.html');
+             });
+         }
+
+
+     }).render('#paypal-button-container');
+ </script>
+
+{% endblock payment-gateway %}

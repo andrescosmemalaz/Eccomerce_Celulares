@@ -1,0 +1,77 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Cart{% endblock title %}
+{% block main-content %}
+<div class="container my-5">
+ <div class="row">
+  <h1 class="text-center mb-5">Carrito de Compra</h1>
+  <div class="col-sm-12">
+  <div class="card">
+   <div class="card-body">
+    <h3>Carrito</h3>                    
+    {% for cart in carts %}
+    <hr>
+    <div class="row">
+     <div class="col-sm-3 text-center align-self-center"><img 
+     src="{{cart.product.product_image.url}}" alt="" 
+     srcset="" class="img-fluid img-thumbnail shadow-sm" 
+     height="150" width="150"> </div>
+     <div class="col-sm-9">
+      <div>
+       <h5>{{cart.product.title}}</h5>
+       <p class="mb-2 text-muted small">{{cart.product.description}}</p>
+       <div class="my-3">
+        <label for="quantity">Cantidad:</label>
+        <a class="minus-cart btn" pid="{{cart.product.id}}"><i class="fas fa-minus-square fa-lg"></i></a>
+          <span id="quantity">{{cart.quantity}}</span>
+        <a class="plus-cart btn" pid = "{{cart.product.id}}"><i class="fas fa-plus-square fa-lg"></i></a>
+       </div> 
+       <div class="d-flex justify-content-between">
+        <a href="#" class="btn btn-sm btn-secondary mr-3 remove-cart" pid="{{cart.product.id}}">Eliminar producto </a>
+        <p class="mb-0"><span><strong>S/. {{cart.product.selling_price}}</strong></span></p>
+       </div>
+      </div>
+     </div>
+    </div>
+    {% endfor %} 
+    
+  <hr class="text-muted">
+  {% comment %} <div class="col-sm-4">
+   <div class="card">
+    <div class="card-body">
+      <h3></h3> {% endcomment %}
+      <div class="container my-5">
+        <div class="row">
+         <h2 class="text-center mb-5">Cantidad Total</h2>
+         <div class="col-sm-12">
+         <div class="card">
+          <div class="card-body">
+      <ul class="list-group">
+       <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">Cantidad<span>s/. <span id="cantidad">{{cantidad}}</span></span></li>
+       <li class="list-group-item d-flex justify-content-between align-items-center px-0">Envío<span>s/. 70.00</span></li>
+       <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+        <div>
+           <strong>Total</strong> <small>(IGV incluido)</small>
+         </div>
+         <span><strong>s/. <strong id="cantidadtotal">{{cantidadtotal}}</strong></strong></span>
+       </li>
+      </ul>
+      <div class="d-grid"><a href="{% url 'checkout' %}" class="btn btn-primary">Hacer pedido</a></div>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+<div class="container">
+ <div class="row">
+  <div class="col-sm-12">
+   <div class="card">
+    <div class="card-body">
+      <h5 class="mb-4">Aceptamos</h5>
+      <img src="{% static 'app/images/payment.png' %}" alt="" class="img-fluid">
+    </div>
+  </div>
+  </div>
+ </div>
+</div>
+{% endblock main-content %}

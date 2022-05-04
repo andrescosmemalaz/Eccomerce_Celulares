@@ -1,0 +1,50 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Detalle de Producto{% endblock title %}
+{% block main-content %}
+<div class="container my-5">
+ <div class="row">
+  <div class="col-sm-6 text-center align-self-center">
+  <img src="{{product.product_image.url}}" alt="" class="img-fluid img-thumbnail">
+  </div>
+  <div class="col-sm-5 offset-sm-1">
+   <h2>Titulo de Producto: {{product.title}}</h2>
+   <hr>
+    <p>Descripción de Producto:</p> 
+    <p>{{product.description}}</p> 
+   <br>
+   <h4>s/. {{product.selling_price}} <small class="fw-light text-decoration-line-through">s/. {{product.discounted_price}}</small></h4> <br>
+   {% if request.user.is_authenticated %}
+    {% if item_already_in_cart %}
+     <a href="{% url 'showcart' %}" class="btn btn-warning shadow px-5 py-2 ms-4">Ir al Carrito</a>
+    {% else %}
+    <form action="/add-to-cart" class="d-inline">
+      <input type="hidden" name="prod_id" value={{product.id}}
+      id = "prod_id">
+      <button type="submit" class="btn btn-primary shadow py-2"> Agregar a Carrito</button>
+    </form>
+    {% endif %}
+   {% endif %}
+
+{% if not request.user.is_authenticated %}
+   <form action="/add-to-cart" class="d-inline">
+    <input type="hidden" name="prod_id" value={{product.id}}
+    id = "prod_id">
+    <button type="submit" class="btn btn-primary shadow py-2"> Agregar a Carrito</button>
+   </form>
+{% endif %}
+
+
+   {% comment %} <a href="{% url 'add-to-cart' %}" class="btn btn-primary shadow px-5 py-2">Agregar a Carrito</a> {% endcomment %}
+   <a href="{% url 'showcart' %}" class="btn btn-danger shadow px-5 py-2 ms-4">Pagar ahora</a>
+   <h5 class="mt-5">Ofertas Disponibles</h5>
+   <ul>
+    <li>Oferta bancaria 5% de devolución ilimitada en Banco de Crédito del Perú</li>
+    <li>Precio especial Obtenga S/.30 de descuento extra (precio con descuento incluido)</li>
+    <li>Envío sin coste por $1,667/mes. Paypal también disponible</li>
+    <li>Oferta de socio S/.20 de tarjeta de regalo en Las Malvinas  en cada S/.1000 transacción con una nueva tarjeta de débito/crédito Visa</li>
+   </ul>
+  </div>
+ </div>
+</div>
+{% endblock main-content %}
