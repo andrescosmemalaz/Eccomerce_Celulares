@@ -4,7 +4,7 @@ Proyecto de Ecommerce de las Malvinas
 Es un proyecto, con miras a las tendencias originadas con el ecommerce, el cual fue observado previamente a la pandemia. 
 La cual se vio como alternativa al momento de cerrar. Dicho proyecto fue construido como un prototipo, para un grupo de Empresarios, 
 de las Malvinas. Se usó un template brindado por un especialistas, puestos no se tenia conocimientos de Frontend. 
-Por otro lado, el Backend fue desarrollado, completamente con Django de Python.
+Por otro lado, el Backend fue desarrollado, completamente con Django de Python. Se ha conectado a la Api de Paypal.
 
 
 ![Home-Part1](https://user-images.githubusercontent.com/57787417/166808205-120d6898-f4c6-4712-b08a-0dad4549d069.JPG)
